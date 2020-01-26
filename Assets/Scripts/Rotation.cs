@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class Rotation : MonoBehaviour {
 
+    public GameObject player;
     public float speed = 1.0f;
     public float max = 315f;
     public float min = 225f;
+
+    public float lim = 2.4f;
 
     public float angleX;
 
@@ -25,6 +28,12 @@ public class Rotation : MonoBehaviour {
 
             float rotation = -speed *-0.4f;
             transform.Rotate(rotation, 0, 0);
+
+
+            player.transform.Translate(Time.deltaTime, 0, 0);
+            if (player.transform.position.z > lim) {
+                player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, lim);
+            }
 
             angleX = transform.eulerAngles.x;
 
@@ -44,6 +53,12 @@ public class Rotation : MonoBehaviour {
 
             float rotation = -speed *0.4f;
             transform.Rotate(rotation, 0, 0);
+
+            player.transform.Translate(-Time.deltaTime, 0, 0);
+            if (player.transform.position.z < -lim) {
+                player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -lim);
+            }
+
 
             angleX = transform.eulerAngles.x;
 

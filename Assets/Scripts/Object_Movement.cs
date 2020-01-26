@@ -5,7 +5,7 @@ using UnityEngine;
 public class Object_Movement : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float vel = 20f;
+    public float vel = 30f;
    
     void Start()
     {

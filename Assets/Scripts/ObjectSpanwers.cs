@@ -14,6 +14,8 @@ public class ObjectSpanwers : MonoBehaviour
     public int waitMin; //least amount of wait time
     public int waitMax; //max amount of wait time
     public int waitTime; //interval when objects spawn in
+    public float scale1;
+    public float scale2;
 
     private int random;
 
@@ -31,23 +33,6 @@ public class ObjectSpanwers : MonoBehaviour
         waitTime = Random.Range(waitMin, waitMax); //constantly making a new float value of time within this range
 
     }
-    /*
-        public void SpawnObjects() //spawns the random flying objects (projectiles, crates, etc)
-        {
-            Vector3 spawnPos = center + new Vector3(Random.Range(-size.x / 2, size.x / 2), 0, Random.Range(-size.z / 2, size.z / 2)); //this gets the exact coordinates that ranges in the cube FOR each axis
-
-            Instantiate(Projectileprefab, spawnPos, Quaternion.identity); //this will spawn the actual object which will be within the randomly generated position 
-
-        }*/
-
-
-    void OnDrawSpawn() //this is the shape that is used to spawn objects into (i.e, where random objects will spawn)
-    {
-        Gizmos.color = new Color(1, 0, 0, 0.75f); //color rgb range (3), alpha
-
-        Gizmos.DrawCube(center, size); //draw the cube using these parameters size and center
-
-    }
 
     IEnumerator spawnWait()
     {
@@ -55,11 +40,25 @@ public class ObjectSpanwers : MonoBehaviour
 
         while(true)
         {
-
             random = Random.Range(0,Projectileprefab.Length);
             Vector3 spawnPos = center + new Vector3(Random.Range(-size.x / 2, size.x / 2), 0, Random.Range(-size.z / 2, size.z / 2)); //this gets the exact coordinates that ranges in the cube FOR each axis
 
-            Instantiate(Projectileprefab[random], spawnPos, Quaternion.identity); //this will spawn the actual object which will be within the randomly generated position 
+            GameObject obj = Instantiate(Projectileprefab[random], spawnPos, Quaternion.Euler(Random.Range(0.0f, 360f), Random.Range(0.0f, 360f), Random.Range(0.0f, 360f))); //this will spawn the actual object which will be within the randomly generated position
+            obj.AddComponent<Object_Movement>();
+            obj.AddComponent<Rigidbody>();
+            obj.GetComponent<Rigidbody>().mass = 30;
+            obj.GetComponent<Rigidbody>().useGravity = true;
+            if (random == 0) {
+                obj.transform.localScale = new Vector3(scale1, scale1, scale1);
+                obj.gameObject.tag = "Collectable";
+                obj.AddComponent<BoxCollider>();
+                obj.GetComponent<BoxCollider>().isTrigger = false;
+            }
+            if (random == 1) {
+                obj.transform.localScale = new Vector3(scale2, scale2, scale2);
+                obj.gameObject.tag = "Bad";
+                obj.GetComponent<SphereCollider>().isTrigger = false;
+            }
 
             yield return new WaitForSeconds(waitSpawn);
         }
