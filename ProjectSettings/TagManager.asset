@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Collectable
   - Bad
+  - Island
   layers:
   - Default
   - TransparentFX

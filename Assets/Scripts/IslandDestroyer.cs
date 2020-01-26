@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallDestroyer : MonoBehaviour
+public class IslandDestroyer : MonoBehaviour
 {
-
     void OnTriggerEnter(Collider other) {
-        if (other.gameObject.tag == "Collectable" || other.gameObject.tag == "Bad") {
+        if (other.gameObject.tag == "Island") {
             DestroyObject(other.gameObject);
         }
     }
